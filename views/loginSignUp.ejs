@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>How to Design Login & Registration Form Transition</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="..\asset\css\login-style.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$("#signup").click(function(){
+
+			$("#nameErr").hide();
+			$("#emailErr").hide();
+			$("#passErr").hide();
+			$("#cPassErr").hide();
+			$("#cityErr").hide();
+			$("#countryErr").hide();
+
+
+			var name = $("#userName").val();
+			var email = $("#userEmail").val();
+			var pass = $("#userPass").val();
+			var cPass = $("#confirmPass").val();
+			var city = $("#city").val();
+			var country = $("#country").val();
+
+			console.log("In valiadtion.", name == "")
+
+			var invalid = false;
+
+			if(name == "") {
+				$("#nameErr").html("<b>Invalid Name</b>");
+				$("#nameErr").show();
+				invalid = true;
+			}
+
+			if(email == "") {
+				$("#emailErr").html("<b>Invalid Email</b>");
+				$("#emailErr").show();
+				invalid = true;
+			}
+
+			if(pass == "") {
+				$("#passErr").html("<b>Invalid password</b>");
+				$("#passErr").show();
+				invalid = true;
+			}
+
+			if(cPass == "") {
+				$("#cPassErr").html("<b>Invalid password</b>");
+				$("#cPassErr").show();
+				invalid = true;
+			}
+
+			if(cPass !== pass) {
+				$("#cPassErr").html("<b>Passwords do not match</b>");
+				$("#cPassErr").show();
+				invalid = true;
+			}
+
+			if(city == "") {
+				$("#cityErr").html("<b>Invalid city</b>");
+				$("#cityErr").show();
+				invalid = true;
+			}
+
+			if(country == "") {
+				$("#countryErr").html("<b>Invalid country</b>");
+				$("#countryErr").show();
+				invalid = true;
+			}
+
+			if(invalid) return;
+
+			$.post("/signup/", {
+					name : name,
+					email : email,
+					pass : pass,
+					city : city,
+					country : country
+			}, function(data) {
+					if(data == "successful") {
+							window.location.href = "/login/"
+					} else if(data == "email") {
+							$("#emailErr").html("<b>Email already in use</b>");
+							$("#emailErr").show();
+					}
+			});
+
+		});
+	});
+	</script>
+
+</head>
+<body>
+  <div class="cont">
+    <div class="form sign-in">
+      <h2>Sign In</h2>
+      <label>
+        <span>Email Address</span><br>
+        <input type="email" name="email">
+      </label>
+      <label>
+        <span>Password</span><br>
+        <input type="password" name="password">
+      </label>
+      <button class="submit" type="button" href="#">Sign In</button>
+      <p class="forgot-pass">Forgot Password ?</p>
+    </div>
+
+
+    <div class="sub-cont">
+      <div class="img">
+        <div class="img-text m-up">
+          <h2>New here?</h2>
+          <p>Sign up and discover great amount of new opportunities!</p>
+        </div>
+        <div class="img-text m-in">
+          <h2>One of us?</h2>
+          <p>If you already has an account, just sign in. We've missed you!</p>
+        </div>
+        <div class="img-btn">
+          <span class="m-up">Sign Up</span>
+          <span class="m-in">Sign In</span>
+        </div>
+      </div>
+			<div class="sub-cont" style="overflow-y: scroll;">
+	<form>
+	      <div class="form sign-up" >
+	        <h2>Sign Up</h2>
+	        <label>
+	          <span>Name</span><br>
+	          <input type="text" id="userName">
+						<p style="color:red" id="nameErr"></p>
+	        </label>
+	        <label>
+	          <span>Email</span><br>
+	          <input type="email" id="userEmail">
+						<b style="color:red" id="emailErr"></b>
+	        </label>
+	        <label>
+	          <span>Password</span><br>
+	          <input type="password" id="userPass">
+						<b style="color:red" id="passErr"></b>
+	        </label>
+	        <label>
+	          <span>Confirm Password</span><br>
+	          <input type="password" id="confirmPass">
+						<b style="color:red" id="cPassErr"></b>
+	        </label>
+					<label>
+	          <span>City</span><br>
+	          <input type="text" id="city">
+						<b style="color:red" id="cityErr"></b>
+	        </label>
+					<label>
+	          <span>Country</span><br>
+	          <input type="text" id="country">
+						<b style="color:red" id="countryErr"></b>
+	        </label>
+	        <button type="button" id="signup" class="submit">Sign Up Now</button>
+	      </div>
+	</form>
+</div>
+
+    </div>
+  </div>
+<script type="text/javascript" src="..\asset\js\script.js"></script>
+
+</body>
+</html>
